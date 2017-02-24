@@ -237,7 +237,7 @@ INFO
     end
 
     # Build Apache module by default
-    if build.with?('httpd24') || build.with?('httpd22')
+    if build.with?('httpd24') || build.with?('httpd22') || MacOS.version <= :sierra
       args << "--with-apxs2=#{apache_apxs}"
       args << "--libexecdir=#{libexec}"
     end
@@ -368,7 +368,7 @@ INFO
     system "./buildconf", "--force" if build.head?
     system "./configure", *install_args()
 
-    if build.with?('httpd24') || build.with?('httpd22')
+    if build.with?('httpd24') || build.with?('httpd22') || MacOS.version <= :sierra
       # Use Homebrew prefix for the Apache libexec folder
       inreplace "Makefile",
         /^INSTALL_IT = \$\(mkinstalldirs\) '([^']+)' (.+) LIBEXECDIR=([^\s]+) (.+)$/,
